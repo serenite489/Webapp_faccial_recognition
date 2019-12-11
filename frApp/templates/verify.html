@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login Module - Connexion by Facial recognition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <!-- External CSS libraries -->
+    <link type="text/css" rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/assets/fonts/flaticon/font/flaticon.css">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="../static/assets/img/favicon.ico" type="image/x-icon" >
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+
+    <!-- Custom Stylesheet -->
+    <link type="text/css" rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" id="style_sheet" href="../static/assets/css/skins/default.css">
+
+</head>
+<body id="top" class="bg-grea-5">
+
+<div class="page_loader"></div>
+
+
+<div class="login-5">
+    <div class="container">
+        <div class="row login-box">
+            <div class="col-lg-5 col-md-12 col-pad-0 bg-img none-992">
+                <a href="#">
+                    <img src="../static/assets/img/logos/logo6.png" class="logo" alt="logo">
+                </a>
+                <h3>Welcome Back</h3>
+                <p>The security of your information, is our main priority.</p>
+                <a href="https://fsonzahi.ci" class="btn-outline"><< Return</a>
+                <ul class="social-list clearfix">
+                    <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#" class="linkedin-bg"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-lg-7 col-md-12 col-pad-0 align-self-center">
+                <div class="login-inner-form">
+                    <div class="details">
+                        <h3>Facial Authenfification</h3>
+
+                        Visiteurs: {{ session['visits'] }}
+
+                        <center>
+
+                        <!-- Box 300 X 200 -->
+                        <img src="{{ Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame') }}">
+
+                        </center>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- External JS libraries -->
+<script src="../static/assets/js/jquery-2.2.0.min.js"></script>
+<script src="../static/assets/js/popper.min.js"></script>
+<script src="../static/assets/js/bootstrap.min.js"></script>
+<!-- Custom JS Script -->
+
+</body>
+</html>
