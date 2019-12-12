@@ -46,15 +46,15 @@
                     <div class="details">
                         <h3>Facial Authenfification</h3>
 
-                        Visiteurs: {{ session['visits'] }}
-
                         <center>
 
                         <!-- Box 300 X 200 -->
-                        <img src="{{ Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame') }}">
+                        <img src="{{ url_for('video_feed') }}">
 
                         </center>
 
+                        <div id="rep2"></div>
+                        <div id="rep"></div>
 
                     </div>
                 </div>
@@ -65,6 +65,48 @@
 
 <!-- External JS libraries -->
 <script src="../static/assets/js/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">
+
+window.onload = function(){
+
+var timerForLoadingResult = setInterval(ajaxCall, 100);
+var timerForLoadingResultn = setInterval(ajaxCalln, 100);
+
+function ajaxCall() {
+$.get("fileok")
+    .done(function(data){
+    if (data != '0') {
+        $('#rep').html('<div class="alert alert-success"><strong>Success!</strong> Welcome <strong>'+data.toUpperCase()+'</strong> !</div><form action="/dashboard" method="POST"><button type="submit" class="btn-md btn-success" ><b>My dashboard</b></button></form>');
+        clearInterval(timerForLoadingResult);
+        clearInterval(timerForLoadingResultn)
+    }  
+    })
+}
+
+
+function ajaxCalln() {
+$.get("filenok")
+    .done(function(data){
+    if (data == '1') {
+        $('#rep2').html('<div class="alert alert-danger"><strong>Oups!</strong> Access denied !</div><a href="http://localhost:5000/" class="pull-left"><b> << Home</b></a>');
+        clearInterval(timerForLoadingResultn);
+        clearInterval(timerForLoadingResult)
+    }  
+    })
+}
+
+}
+
+
+/*var auto_refresh = setInterval(
+function ()
+{
+$('#rep').load('btnok.html').fadeIn("slow");
+}, 100); // refresh every 10000 milliseconds
+ */
+ 
+</script>
+
 <script src="../static/assets/js/popper.min.js"></script>
 <script src="../static/assets/js/bootstrap.min.js"></script>
 <!-- Custom JS Script -->
