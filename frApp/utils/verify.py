@@ -39,7 +39,6 @@ def gen(video_capture,known_face_encodings,known_face_names,process_this_frame=T
     face_encodings = []
     face_names = []
     loop = 0
-    letgo = 0
 
     color = (0, 0, 255)
     name = "Unknown"
@@ -92,7 +91,6 @@ def gen(video_capture,known_face_encodings,known_face_names,process_this_frame=T
             mixer.init()
             mixer.music.load('utils/beep.mp3')
             mixer.music.play()
-            letgo = 1
                 
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), color, 2)
@@ -107,5 +105,5 @@ def gen(video_capture,known_face_encodings,known_face_names,process_this_frame=T
     (flag, encodedImage) = cv2.imencode(".jpg", frame)
 
 
-    return encodedImage, loop, name, letgo
+    return encodedImage, loop, name, frame
 
