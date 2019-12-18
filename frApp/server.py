@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, session, escape, render_template, Response, request, redirect, url_for
 import cv2
+#import os
+#import sys
 import os.path
+import time
+from pygame import mixer
+import numpy as np
+import face_recognition as fr
 from utils.verify import load_files, videocapture, initVar, gen
+from utils.newer import load_filesn, videocapturen, genn
+from utils.loadinit import get_known_face_encodings, get_known_face_names, picture_encodings, create_pickle
 
 
 app = Flask(__name__)
@@ -11,8 +19,19 @@ app.secret_key = 'any random string'
 
 @app.route('/')
 def index():
-	session['name'] = "noname"
-	return render_template('index.html')
+    session['name'] = "noname"
+    return render_template('index.html')
+
+
+#@app.route('/back')
+#def back():
+#    os.system('python main.py')
+#    time.sleep(6)
+
+def picture_encodings():
+    box_image = fr.load_image_file("filenew.jpg")
+    box_face_encoding = fr.face_encodings(box_image)
+    set_face_encodings(box_face_encoding)
 
 
 def generate():
@@ -46,11 +65,44 @@ def generate():
         	break
 
 
+
+def gen_user():
+
+    load_filesn()
+    video_capturen = None
+    video_capturen = videocapturen()
+    encodedImages = None
+
+    process_this_frame = True
+    debut = time.time()
+    lgts = 0
+
+    while True:
+        (encodedImages, frames, lgt) = genn(video_capturen,process_this_frame)
+        lgts = lgt
+        # yield the output frame in the byte format
+        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + 
+            bytearray(encodedImages) + b'\r\n')
+
+        fin = time.time()
+        dure = fin - debut
+        if dure > 5 :
+            if lgts == 1:
+                cv2.imwrite('filenew.jpg', frames)
+                cv2.destroyAllWindows()
+                # For Beep audio
+                mixer.init()
+                mixer.music.load('utils/beep_new.mp3')
+                mixer.music.play()
+                break
+
+
+
 @app.route('/verify', methods = ['POST', 'GET'])
 def verify():
-	if 'visits' in session:
-		#session['visits'] = session.get('visits') + 1
-	return render_template('verify.html')
+#	if 'visits' in session:
+        #session['visits'] = session.get('visits') + 1
+    return render_template('verify.html')
 
 
 @app.route('/fileok', methods = ['GET'])
@@ -84,3 +136,36 @@ def video_feed():
 @app.route('/dashboard', methods = ['POST', 'GET'])
 def dashboard():
 	return render_template('dashboard.html', name = session['name'] )
+
+
+@app.route('/createresponse', methods = ['POST', 'GET'])
+def createresponse():
+    username = request.form['name']
+    create_pickle(username)
+    return render_template('createresponse.html')
+
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
+@app.route('/video_new')
+def video_new():
+    return Response(gen_user(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/filenew', methods = ['GET'])
+def filenew():
+    if os.path.isfile('filenew.jpg'):
+        #picture_encodings()
+        #os.remove('filenew.jpg')
+        os.rename('filenew.jpg', 'user/filenew.jpg')
+        return '1'
+    else:
+        return '0' 
+
+
+@app.route('/newregister')
+def newregister():
+    return render_template('newregister.html')

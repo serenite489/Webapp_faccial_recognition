@@ -32,7 +32,7 @@
                 <a href="#">
                     <img src="../static/assets/img/logos/logo6.png" class="logo" alt="logo">
                 </a>
-                <h3>Welcome</h3>
+                <h3>Register</h3>
                 <p>The security of your information, is our main priority.</p>
                 <a href="https://fsonzahi.ci" class="btn-outline"><< Return</a>
                 <ul class="social-list clearfix">
@@ -44,21 +44,20 @@
             <div class="col-lg-7 col-md-12 col-pad-0 align-self-center">
                 <div class="login-inner-form">
                     <div class="details">
-                        <h3>Sign into your account</h3>
-                        <form action="/verify" method="POST">
-                            <div class="alert alert-warning" style="font-size:12px;">
-                              <i class="fa fa-info-circle"></i>  Click on <b>"Verify"</b> and <b>look at your webcam</b>.
-                            </div>
-
-                            <div class="form-group">
-                               <button type="submit" class="btn-md btn-theme" name="btnVerify">Verify !</button>
-                            </div>
-
-                        </form>
-
-                        <br>
+                        <h3>Your capture</h3>
+                        Attention capture dans 05 secondes. <br>
                         <center>
-                        <a href="http://localhost:5000/newregister" style="color: #052572; text-decoration: none;"><b> <i class="fa fa-user"></i> Create new account</b></a>
+                         <b style="font-size:21px; color:#000;">0</b><b id="ct" style="font-size:21px; color:#000;">0</b> s
+                         </center>
+
+                        <center>
+
+                        <!-- Box 300 X 200 -->
+                        <img src="{{ url_for('video_new') }}">
+
+
+                        <div id="input"></div>
+
                         </center>
 
                     </div>
@@ -70,6 +69,46 @@
 
 <!-- External JS libraries -->
 <script src="../static/assets/js/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">
+
+var input = '<form action="/createresponse" method="POST"><div class="alert alert-warning" style="font-size:12px;"><div class="form-group"><label>Your name</label><input type="text" name="name" class="input-text" placeholder="Your name" required></div><div class="form-group"><button type="submit" class="btn-md btn-theme" name="goname"><i class="fa fa-check-circle"></i> Save !</button></div></div></form>'
+
+var timerForLoadingResult = setInterval(ajaxCall, 100);
+
+function ajaxCall() {
+$.get("filenew")
+    .done(function(data){
+    if (data != '0') {
+        $('#input').html(input)
+        clearInterval(timerForLoadingResult);
+    }  
+    })
+}
+
+
+/*
+var auto_refresh = setInterval(
+function ()
+{
+$('#ct').load('btnok.html').fadeIn("slow");
+}, 100); // refresh every 10000 milliseconds
+*/ 
+var i=0;
+var timer = setInterval("augmenter()", 1000);
+
+function augmenter() {
+    i++;
+    if (i < 6) {
+        document.getElementById("ct").innerHTML = i;
+    }else{
+        clearInterval(timer);
+    }
+}
+
+
+ 
+</script>
+
 <script src="../static/assets/js/popper.min.js"></script>
 <script src="../static/assets/js/bootstrap.min.js"></script>
 <!-- Custom JS Script -->
